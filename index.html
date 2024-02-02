@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Generator</title>
+</head>
+<body>
+  <canvas id="canvas" style="width: 64px; height: 64px; image-rendering: pixelated;"></canvas>
+  <div id="div"></div>
+
+  <script>
+    const url = new URL(window.location.href);
+    var canvas = document.getElementById("canvas")
+    var ctx = canvas.getContext("2d")
+    var image = new Image()
+    var name = url.searchParams.get('i')
+    name = name.replace(name.charAt(0), name.charAt(0).toUpperCase())
+    name = name.replace(/_(.)/g, function(match, letter) {
+      return "_"+letter.toUpperCase();
+    });
+    const src = "https://minecraft.wiki/images/Invicon_" + name + ".png"
+    image.src = src
+    image.decoding = "async"
+    image.loading = "lazy"
+    image.width = "32"
+    image.height = "32"
+    image.setAttribute("data-file-width", "32")
+    image.setAttribute("data-file-height", "32")
+    image.style.imageRendering = "pixelated"
+
+    document.getElementById("div").appendChild(image)
+    image.onload = function() {
+      ctx.imageSmoothingEnabled = false
+      ctx.drawImage(image, 0, 0, 64, 128, 0, 0, 512, 512)
+    }
+
+    //document.getElementById("div").appendChild(canvas)
+  </script>
+</body>
+</html>
